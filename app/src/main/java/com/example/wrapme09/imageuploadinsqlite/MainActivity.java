@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    Button button,button2;
     private static final int SELECT_PICTURE = 100;
     byte[] Imagebytes;
     ImageView ImageView;
@@ -23,8 +23,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.button);
+        button2=(Button)findViewById(R.id.button2);
         ImageView=(ImageView)findViewById(R.id.imageView);
         button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageChooser();
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImageChooser();
