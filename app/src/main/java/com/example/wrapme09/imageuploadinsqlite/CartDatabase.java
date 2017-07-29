@@ -46,18 +46,18 @@ public class CartDatabase extends SQLiteOpenHelper {
     }
 
     /////////////CREATE////////////////////////////////////////////////////////////////
-    public void addCartRow(String productid, byte[] imageBytes) {
+    public void addCartRow(byte[] imageBytes) {
 
         //System.out.println("before add items");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_COLUMN_PRODUCTID, productid); // Email
+        values.put(KEY_COLUMN_PRODUCTID, "hhh"); // Email
         values.put(KEY_IMAGE, imageBytes);
 
 
         // Inserting Row
-         db.insert(TABLE_USER, null, values);
+        db.insert(TABLE_USER, null, values);
         //System.out.println("data inserted successfully");
         db.close(); // Closing database connection
     }
@@ -96,24 +96,37 @@ public class CartDatabase extends SQLiteOpenHelper {
 
     public byte[] retreiveImageFromDB() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.query(true, TABLE_USER, new String[]{KEY_IMAGE,}, null, null, null, null, null, null);
+        /*Cursor cur = db.query(true, TABLE_USER, new String[]{KEY_IMAGE,}, null, null, null, null, null, null);
         if (cur.moveToFirst()) {
-            byte[] blob = cur.getBlob(cur.getColumnIndex(KEY_IMAGE));
+            //cur.getColumnIndex(KEY_IMAGE)
+            byte[] blob = cur.getBlob(1);
             cur.close();
             return blob;
         }
         cur.close();
-        return null;
-       /* byte[] bytes = new byte[0];
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT  * FROM " + TABLE_USER+"WHERE"+KEY_COLUMN_ID+"=1", null);
+        return null;*/
+    /*    byte[] bytes = new byte[0];
+        SQLiteDatabase db1 = this.getReadableDatabase();
+        Cursor res = db1.rawQuery("SELECT  * FROM " + TABLE_USER, null);
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            bytes=res.getBlob(res.getColumnIndex(KEY_COLUMN_DATE));
+            bytes=res.getBlob(0);
             res.moveToNext();
         }
         return bytes;*/
+        byte[] blob = new byte[0];
+        Cursor cur = db.query(true, TABLE_USER, new String[]{
+                KEY_IMAGE}, null, null, null, null, null, null);
+        if (cur.moveToFirst()) {
+            blob = cur.getBlob(cur.getColumnIndex(KEY_IMAGE));
+            //String name = cur.getString(cur.getColumnIndex(KEY_COLUMN_PRODUCTID));
+            //System.out.println("ddd" + name);
+            cur.close();
+            //return new Employee(Utility.getPhoto(blob), name, age);
+        }
+        cur.close();
+        return null;
 
 
     }

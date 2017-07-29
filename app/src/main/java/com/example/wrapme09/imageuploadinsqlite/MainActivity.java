@@ -1,7 +1,6 @@
 package com.example.wrapme09.imageuploadinsqlite;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    Button button,button2;
+    Button buttonupdate,buttonload;
     private static final int SELECT_PICTURE = 100;
     byte[] Imagebytes;
     ImageView ImageView;
@@ -22,19 +21,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button=(Button)findViewById(R.id.button);
-        button2=(Button)findViewById(R.id.button2);
+        buttonupdate=(Button)findViewById(R.id.buttonupdate);
+        buttonload=(Button)findViewById(R.id.buttonload);
         ImageView=(ImageView)findViewById(R.id.imageView);
-        button.setOnClickListener(new View.OnClickListener() {
+        db=new CartDatabase(this);
+        buttonload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openImageChooser();
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        buttonupdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openImageChooser();
+                db.retreiveImageFromDB();
+                //ImageView.setImageBitmap(Utils.getImageBitmap(db.retreiveImageFromDB()));
+
             }
         });
     }
@@ -59,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
                     Imagebytes = Utils.getImageBytes(imageUri,this);
 
                     //ImageView.setImageBitmap(Utils.getImageBitmap(Imagebytes));
-                    db.addCartRow("ggg",Imagebytes);
-                    ImageView.setImageBitmap(Utils.getImageBitmap(db.retreiveImageFromDB()));
+                    db.addCartRow(Imagebytes);
+
                     //imageView_FromFile.setImageBitmap(Utils.getImageBitmap(Imagebytes));
 
 
